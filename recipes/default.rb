@@ -38,5 +38,4 @@ template "#{node['php']['ext_conf_dir']}/mailcatcher.ini" do
   group "root"
   mode "0644"
   action :create
-  notifies :restart, resources("service[apache2]"), :delayed
 end
