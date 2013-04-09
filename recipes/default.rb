@@ -21,7 +21,7 @@
 package "libsqlite3-dev"
 
 # Get eth1 ip
-eth1_ip = node[:network][:interfaces][:eth1][:addresses].select{|key,val| val[:family] == 'inet'}.flatten[0]
+eth_ip = node[:network][:interfaces][node['mailcatcher']['eth']][:addresses].select{|key,val| val[:family] == 'inet'}.flatten[0]
 
 # Install MailCatcher
 gem_package "mailcatcher"
@@ -29,7 +29,7 @@ gem_package "mailcatcher"
 # Start MailCatcher
 bash "mailcatcher" do
   not_if "ps ax  | grep -v grep | grep mailcatcher"
-  code "mailcatcher --http-ip #{eth1_ip} --smtp-port #{node['mailcatcher']['port']}"
+  code "mailcatcher --http-ip #{eth_ip} --smtp-port #{node['mailcatcher']['port']}"
 end
 
 # Configure MailCatcher
